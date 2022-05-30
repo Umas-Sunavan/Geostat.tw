@@ -1,0 +1,35 @@
+<section class="glass-blur rounded-2xl pointer-events-auto" [ngStyle]="{ backgroundImage: blurSource }">
+  <div class="bg-white/90 m-3 p-3 rounded-xl flex text-pins-500 flex-col">
+    <h2 class="p-2 text-xl">選取落點</h2>
+    <form>
+      <fieldset>
+        <div class="flex flex-col pins">
+          <div class="selected-pins">
+            <ng-container *ngFor="let pin of selectedPinsWithType; index as i">
+              <label [for]="'selected-pin-' + i"
+                class="rounded-full bg-pins-400 flex space-x-2 items-center my-1 mx-3 py-3 px-6">
+                <label [for]="'selected-pin-' + i" class="flex space-x-2 mr-auto">
+                  <p class="pr-6">{{ pin.title }}</p>
+                </label>
+                <img src="./assets/icons/polygon-triangle.svg" *ngIf="isPinTypeTriangle(pin)" />
+                <img src="./assets/icons/polygon-rectangle.svg" *ngIf="isPinTypeRectangle(pin)" />
+                <input type="checkbox" [id]="'selected-pin-' + i" [name]="pin.id" [checked]="true" [ngStyle]="{'background-image': 'url(\'./assets/icons/checked-box.svg\')'}"
+                  (change)="uncheckPin(pin)"  />
+              </label>
+            </ng-container>
+          </div>
+          <div class="unselected-pins">
+            <ng-container *ngFor="let pin of unselectedPins; index as i">
+              <label class="rounded-full bg-pins-300 py-3 px-6 flex space-x-2 items-center my-1 mx-3">
+                <label [for]="'unselected-pin-' + i" class="flex space-x-2 mr-auto">
+                  <p class="pr-6">{{ pin.title }}</p>
+                </label>
+                <input type="checkbox" [id]="'unselected-pin-' + i" [name]="pin.id" (change)="checkPin(pin)" />
+              </label>
+            </ng-container>
+          </div>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</section>

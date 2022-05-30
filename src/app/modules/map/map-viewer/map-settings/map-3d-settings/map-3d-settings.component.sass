@@ -1,0 +1,54 @@
+
+input[type="color"]::-webkit-color-swatch-wrapper
+    padding: 0
+input[type="color"]::-webkit-color-swatch
+    border: none
+input[type="color"]::-moz-color-swatch
+    border: none
+    // border: solid 3px #8354bf
+    // border-radius: 10px
+
+input[type="range"]
+    -webkit-appearance: none
+    height: 4px
+    outline: none /* 避免點選會有藍線或虛線 */
+    border-radius: 30px
+    background: #8354bf
+    width: 170px
+input[type="range"]::-moz-range-thumb
+    -webkit-appearance: none
+    -moz-appearance: none
+    width: 23px
+    height: 23px
+    background: #8354BF
+    transition: .2s
+    border-width: 0px
+    border-radius: 30px
+input[type="range"]::-webkit-slider-thumb
+    -webkit-appearance: none
+    -moz-appearance: none
+    width: 23px
+    height: 23px
+    background: #8354BF
+    transition: .2s
+    border-width: 0px
+    border-radius: 30px
+input[type="range"]::-webkit-slider-thumb:before
+    position: absolute
+    top: 3px
+    width: 2000px
+    height: 4px
+    content: ""
+    pointer-events: none
+    transition: .2s
+input[type="range"]::-webkit-slider-thumb:after
+    position: absolute
+    top: 3px
+    width: 2000px
+    height: 4px
+    content: ""
+    pointer-events: none
+    transition: .2s
+.glass-blur > div
+    max-height: calc(100vh - 9.8rem)
+    overflow-y: auto

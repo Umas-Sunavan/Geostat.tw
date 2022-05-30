@@ -1,0 +1,39 @@
+@tailwind base
+@tailwind components
+@tailwind utilities
+/* You can add global styles to this file, and also import other style files */
+body
+    margin: 0px
+    font-family: 'Catamaran', sans-serif
+    font-weight: 400
+.glass-blur
+    background-repeat: no-repeat
+    background-attachment: fixed
+    background-size: cover // three background settings above sets the backround position fixed
+    box-shadow: inset 0 0 0 3000px rgba(255, 255, 255, 0.3) // because the blur effect won't affect the pixel near border, so it is used as an inner shadow
+    filter: blur(0px) // fix the element
+    overflow: hidden // hide the overflowed blur effect, which is from the before element
+    &:before
+        content: ""
+        position: absolute // position should be same as parent by using absoute
+        top: 0px
+        left: 0px
+        bottom: 0px
+        right: 0px // by applying these above, this element's position and size is constrained to parent
+        background: inherit // usrdo needs inherit the parent's background, which is used to blur
+        box-shadow: inset 0 0 0 500px rgba(255,255,255,0.2) // lighten the inner part of the container
+        filter: blur(10px) brightness(1.02) // the actuall blur
+    > *
+        position: relative
+.icon-transition
+    transition: 500ms cubic-bezier(.18,.89,.64,1.21)
+.rounded-4xl
+    border-radius: 2rem
+.gradient-bg
+    background: linear-gradient(306deg, rgba(52,136,184,1) 0%, rgba(75,158,205,1) 100%)
+.tint-shadow-primary
+    box-shadow: 0px 21px 16px -11px #4b9ecd55, 0px 3px 13px 0px #06091829
+.tint-shadow-primary-sm
+    box-shadow: 0px 21px 16px -30px #b0d6ff, 0px 3px 33px -10px #d2d2d236, 0px 3px 10px -5px #809fb34f
+.word-break-keep
+    word-break: keep-all

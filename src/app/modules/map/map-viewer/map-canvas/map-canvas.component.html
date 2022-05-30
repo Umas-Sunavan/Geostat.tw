@@ -1,0 +1,5 @@
+<div #canvasContainer class="canvas-container"></div>
+<div [ngSwitch]="isPaused">
+    <button *ngSwitchCase="true" (click)="resumeAnimation()">Resume Animation</button>
+    <button *ngSwitchCase="false" (click)="pauseAnimation()">Pause Animation</button>
+</div>

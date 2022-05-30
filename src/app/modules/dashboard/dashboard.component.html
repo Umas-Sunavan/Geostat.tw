@@ -1,0 +1,156 @@
+<div class="flex">
+    <nav class="w-16 bg-menu-500 h-screen flex flex-col items-center justify-between z-20">
+        <button class="hover:bg-menu-600 rounded-xl my-2 p-2">
+            <img src="./assets/icons/logo.svg" class="w-8">
+        </button>
+        <button class="hover:bg-menu-600 p-2 my-2 rounded-xl">
+            <img src="./assets/icons/log-out.svg" class="w-8 p-0.5">
+            <p class="text-white pt-2">登出</p>
+        </button>
+    </nav>
+    <main class="flex w-full pointer-events-auto" (click)="clickSpace($event)">
+        <section class="absolute text-primary-500 flex flex-col justify-between h-full p-6">
+            <h1 class="text-2xl font-medium tracking-widest">GeoStat.tw</h1>
+            <!-- <small class="tracking-wide">Portions of this content are ©2022 by Umas Sunavan. Content available under a license.</small> -->
+        </section>
+        <section class="category bg-primary-100 w-7/12 flex items-end justify-end">
+            <div class="absolute w-full h-full pointer-events-none" style="z-index:1; top: 0px; left: 0px;">
+                <img class="absolute" style="left: 40%; top: 13%;" src="./assets/icons/map-circle-xl.svg">
+                <img class="absolute" style="left: 40%; top: 80%;" src="./assets/icons/map-pin-xl.svg">
+                <img class="absolute" style="left: 3%; top: 60%;" src="./assets/icons/map-paper-xl.svg">
+            </div>
+            <div class="bg-primary-300 text-primary-500 float-right w-5/6 z-10">
+                <div class="mt-10 mx-10">
+                    <button
+                        class="bg-primary-500 create-category tint-shadow-primary mix-blend-darken flex rounded-3xl text-white w-full items-center"
+                        [ngStyle]="{'background-image': 'url(\'./assets/icons/create-category-bg.svg\')'}"
+                        (click)="onAddMapClick($event)">
+                        <img class="px-3 py-9 xl:p-9" src="./assets/icons/map-add-lg.svg">
+                        <div class="flex-col flex-col items-start flex">
+                            <h2 class="text-xl font-semibold">新增地圖</h2>
+                            <p>取一個名字，建立一個新地圖</p>
+                        </div>
+                    </button>
+                </div>
+                <div class="list grid grid-cols-1 2xl:grid-cols-2 auto-rows-auto gap-4 overflow-y-auto p-6 mx-6 ml-8">
+                    <button *ngFor="let map of maps; index as i" (click)="onMapClick(map.mapId)"
+                        class="bg-white p-9 tint-shadow-primary-sm rounded-2xl flex ">
+                        <img class=" mr-4" [src]="'./assets/icons/map-list-' + (map.mapId%3 + 1) + '.svg'">
+                        <div class="flex flex-col items-start text-left">
+                            <h2 class="text-xl">{{map.mapName}}</h2>
+                            <div *ngIf="map.mapId === editingMapId">
+                                <div class="dropdown absolute p-2 bg-white rounded-2xl flex flex-col space-y-2 tint-shadow-primary-sm" (click)="clickSpace($event)">
+                                    <button class="px-6 py-2 hover:bg-primary-200 rounded-2xl" (click)="deleteMap($event, map.mapId)">
+                                        刪除
+                                    </button>
+                                    <button class="px-6 py-2 hover:bg-primary-200 rounded-2xl" (click)="renameMap($event, map.mapId)">
+                                        重新命名
+                                    </button>
+                                </div>
+                            </div>
+                            <button class="px-6 py-2 bg-primary-200 rounded-2xl word-break-keep" (click)="editMap($event, map.mapId)">編輯</button>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </section>
+        <section class="category bg-category-100 w-5/12 flex items-end justify-start">
+            <div class="absolute w-full h-full pointer-events-none" style="z-index:1; top: 0px; left: 0px;">
+                <img class="absolute" style="left: 70%; top: 70%;" src="./assets/icons/category-circle-xl.svg">
+                <img class="absolute" style="left: 80%; top: 1%;" src="./assets/icons/category-column-tall-xl.svg">
+                <img class="absolute" style="left: 90%; top: 70%;" src="./assets/icons/category-column-short-xl.svg">
+            </div>
+            <div class="text-category-500 float-left w-5/6 z-10">
+                <div class="mt-10 mx-10">
+                    <button
+                        class="bg-category-500 create-category tint-shadow-primary mix-blend-darken flex rounded-3xl text-white w-full items-center"
+                        [ngStyle]="{'background-image': 'url(\'./assets/icons/create-category-bg.svg\')'}"
+                        (click)="toggleAddCategoryShow()">
+                        <img class="px-3 py-9 xl:p-9"  src="./assets/icons/category-add-lg.svg">
+                        <div class="flex-col flex-col items-start flex">
+                            <h2 class="text-xl font-semibold">新增高度資料</h2>
+                            <p class="text-left mr-4">取一個名字，建立一個高度資料</p>
+                        </div>
+                    </button>
+                </div>
+                <div class="list flex flex-col overflow-y-auto p-6 mx-6 ml-8">
+                    <button *ngFor="let category of categories; index as i"
+                        class="bg-white p-3 xl:p-6 my-3 space-x-2 xl:space-x-4 tint-shadow-primary-sm rounded-2xl flex items-center text-left">
+                        <p class="hidden xl:inline text">{{i+1}}.</p>
+                        <img class="hidden xl:block mr-1 xl:mr-4" [src]="'./assets/icons/category-list-' + (i%3 + 1) + '.svg'">
+                        <h2 class="text-xl">{{category.tableName}}</h2>
+                        <div *ngIf="category.categoryId === editingCategoryId">
+                            <div class="dropdown absolute p-2 bg-white rounded-2xl flex flex-col space-y-2 tint-shadow-primary-sm" (click)="clickSpace($event)">
+                                <button class="px-6 py-2 hover:bg-category-200 rounded-2xl" (click)="deleteCategory($event, category.categoryId)">
+                                    刪除
+                                </button>
+                                <button class="px-6 py-2 hover:bg-category-200 rounded-2xl" (click)="editCategoryTable($event, category.categoryId)">
+                                    編輯資料
+                                </button>
+                            </div>
+                        </div>
+                        <button class="px-6 py-2 bg-category-200 rounded-2xl word-break-keep" (click)="editCategory($event, category.categoryId)">編輯</button>
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+<!-- 新增地圖、編輯地圖 -->
+<app-add-name
+*ngIf="showAddNamePopup"
+[setTitle]="'地圖名稱'"
+[setPlaceholder]="'ex.分店地圖'"
+[setBackButtonType]="'cross'"
+[useBlurPadding]="false"
+[setThemeColor]="'primary'"
+[setPopupBg]="'bg-black/10'"
+(setHide)="toggleAddMapNamePopup()"
+(onSubmit)="onGotName($event)"
+></app-add-name>
+<app-add-name
+*ngIf="showReamePopup"
+[setTitle]="'修改地圖名稱'"
+[setPlaceholder]="'ex.分店地圖'"
+[setBackButtonType]="'cross'"
+[useBlurPadding]="false"
+[setThemeColor]="'primary'"
+[setPopupBg]="'bg-black/10'"
+(setHide)="toggleMapRenamePopup()"
+(onSubmit)="onRenamed($event)"
+></app-add-name>
+<app-completed
+*ngIf="showAddCompletePopup"
+[name]="addedMapName"
+[useBlurPadding]="false"
+[setThemeColor]="'primary'"
+[setPopupBg]="'bg-black/10'"
+(setHide)="toggleAddCompletePopup()"
+(onSubmit)="switchNewMap()"
+></app-completed>
+
+<!-- 新增資料表 -->
+<app-add-category
+*ngIf="isAddCategoryShow"
+[useBlurPadding]="false"
+[setPopupBg]="'bg-black/10'"
+(setHide)="toggleAddCategoryShow()"
+(onSubmit)="onGotSheetUrl($event)"
+></app-add-category>
+<app-add-name
+*ngIf="isAddNameShow"
+[useBlurPadding]="false"
+[setThemeColor]="'category'"
+[setPopupBg]="'bg-black/10'"
+(setHide)="nameMoveLastSetp()"
+(onSubmit)="onGotCategoryName($event)"
+></app-add-name>
+<app-completed
+*ngIf="isCompletedShow"
+[name]="categoryNameToAdd"
+[useBlurPadding]="false"
+[setThemeColor]="'category'"
+[setPopupBg]="'bg-black/10'"
+(setHide)="toggleCompletedShow()"
+[setCta]="false"
+></app-completed>

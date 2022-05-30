@@ -1,0 +1,132 @@
+<section class="glass-blur rounded-2xl mr-3 pointer-events-auto" [ngStyle]="{ backgroundImage: blurSource }">
+  <div (window:resize)="onResize($event)" class="mx-3 my-3 rounded-2xl " #resizeContainer>
+    <div class="bg-white/90 p-3 rounded-xl flex" [ngClass]="{'mr-3':isScrollBarShow}">
+      <img class="p-2" src="./assets/icons/polygon-triangle.svg" />
+      <h2 class="p-2 text-xl">三角形模式</h2>
+    </div>
+    <!-- 圓柱 -->
+    <div class="bg-white/90 mr-3 my-3 p-3 rounded-xl flex flex-col text-setting-500"
+      [ngClass]="{'mr-3':isScrollBarShow}">
+      <div class="flex p-2 items-center space-x-4">
+        <img src="./assets/icons/column-color.svg" />
+        <div class="flex flex-col w-full">
+          <p>圓柱顏色</p>
+          <div class="flex items-center">
+            <input class="mr-4 w-full h-3 rounded-xl overflow-hidden" type="color"
+              [(ngModel)]="columnSettings.columns.defaultColumn.color" (change)="changeColumn($event)" />
+            <p class="w-16">{{ columnSettings.columns.defaultColumn.color }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="flex p-2 items-center space-x-4">
+        <img src="./assets/icons/column-height.svg" />
+        <div class="flex flex-col">
+          <p>圓柱高度</p>
+          <div class="flex items-center">
+            <input class="mr-4" type="range" min="0" max="1" step="0.01"
+              [(ngModel)]="columnSettings.columns.defaultColumn.heightScale" (change)="changeColumn($event)" />
+            <p class="w-16">{{ columnSettings.columns.defaultColumn.heightScale }} KM</p>
+          </div>
+        </div>
+      </div>
+      <div class="flex p-2 items-center space-x-4">
+        <img src="./assets/icons/column-opacity.svg" />
+        <div class="flex flex-col">
+          <p>圓柱透明度</p>
+          <div class="flex items-center">
+            <input class="mr-4" type="range" min="0" max="1" step="0.01"
+              [(ngModel)]="columnSettings.columns.defaultColumn.opacity" (change)="changeColumn($event)" />
+            <p class="w-16">
+              {{
+              columnSettings.columns.defaultColumn.opacity * 100
+              | number: "1.0-0"
+              }}
+              %
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="flex p-2 items-center space-x-4">
+        <img src="./assets/icons/column-bottom-radius.svg" />
+        <div class="flex flex-col">
+          <p>圓柱半徑</p>
+          <div class="flex items-center">
+            <input class="mr-4" type="range" min="0" max="1" step="0.01"
+              [(ngModel)]="columnSettings.columns.defaultColumn.scale" (change)="changeColumn($event)" />
+            <p class="w-16">{{ columnSettings.columns.defaultColumn.scale }} KM</p>
+          </div>
+        </div>
+      </div>
+      <div class="flex p-2 items-center space-x-4">
+        <img src="./assets/icons/column-selected-opacity.svg" />
+        <div class="flex flex-col">
+          <p>選中的圓柱透明度</p>
+          <div class="flex items-center">
+            <input class="mr-4" type="range" min="0" max="1" step="0.01"
+              [(ngModel)]="columnSettings.columns.selectedColumn.opacity" (change)="changeColumn($event)" />
+            <p class="w-16">
+              {{
+              columnSettings.columns.selectedColumn.opacity * 100
+              | number: "1.0-0"
+              }}
+              %
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 圓柱底面 -->
+    <div class="bg-white/90 mr-3 my-3 p-3 rounded-xl flex flex-col text-setting-500"
+      [ngClass]="{'mr-3':isScrollBarShow}">
+      <div class="flex p-2 items-center space-x-4">
+        <img src="./assets/icons/column-bottom-color.svg" />
+        <div class="flex flex-col w-full">
+          <p>圓柱底面顏色</p>
+          <div class="flex items-center">
+            <input class="mr-4 w-full h-3 rounded-xl overflow-hidden" type="color"
+              [(ngModel)]="columnSettings.ground.color" (change)="changeColumn($event)" />
+            <p class="w-16">{{ columnSettings.columns.defaultColumn.color }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="flex p-2 items-center space-x-4">
+        <img src="./assets/icons/column-bottom-opacity.svg" />
+        <div class="flex flex-col">
+          <p>圓柱底面透明度</p>
+          <div class="flex items-center">
+            <input class="mr-4" type="range" min="0" max="1" step="0.01" [(ngModel)]="columnSettings.ground.opacity"
+              (change)="changeColumn($event)" />
+            <p class="w-16">{{ columnSettings.columns.defaultColumn.heightScale }} KM</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 多邊形 -->
+    <div class="bg-white/90 mr-3 mt-3 mt-3 p-3 rounded-xl flex flex-col text-setting-500"
+      [ngClass]="{'mr-3':isScrollBarShow}">
+      <div class="flex p-2 items-center space-x-4">
+        <img src="./assets/icons/column-bottom-color.svg" />
+        <div class="flex flex-col w-full">
+          <p>多邊形顏色</p>
+          <div class="flex items-center">
+            <input class="mr-4 w-full h-3 rounded-xl overflow-hidden" type="color" [(ngModel)]="polygonSettings.color"
+              (change)="changePolygon($event)" />
+            <p class="w-16">{{ columnSettings.polygon.color }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="flex p-2 items-center space-x-4">
+        <img src="./assets/icons/column-bottom-opacity.svg" />
+        <div class="flex flex-col">
+          <p>多邊形透明度</p>
+          <div class="flex items-center">
+            <input class="mr-4" type="range" min="0" max="1" step="0.01" [(ngModel)]="polygonSettings.opacity"
+              (change)="changePolygon($event)" />
+            <p class="w-16">{{ columnSettings.polygon.opacity }}%</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>

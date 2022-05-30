@@ -1,0 +1,19 @@
+<div
+    class="z-10 pointer-events-none absolute w-full h-screen top-0 left-0 flex justify-center items-center" [ngClass]="popupBgClass">
+    <div class="absolute bg-white/30 p-6 rounded-4xl glass-blur" [ngStyle]="{'background-image': blurSource}">
+        <div class="w-50 py-6 px-9 bg-white rounded-2xl pointer-events-auto" [ngClass]="'text-' + themeColor + '-500'">
+            <div class="items-center flex justify-between">
+                <h2 class="text-2xl">新增成功！</h2>
+                <button class="p-5" (click)="hide()">
+                    <img [src]="'./assets/icons/cross-' + themeColor + '.svg'">
+                </button>
+            </div>
+            <div>
+                <button (click)="submit()" *ngIf="enableCta"
+                    class="rounded-full py-3 px-6 flex w-full items-center justify-center space-x-2" [ngClass]="'bg-' + themeColor + '-200'">
+                    <p>切換高度資料到「{{name}}」</p>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

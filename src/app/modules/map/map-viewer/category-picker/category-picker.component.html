@@ -1,0 +1,64 @@
+<div class="flex flex-col m-6">
+    <p class="text-primary-500 pb-3">高度表示：</p>
+    <button
+        class="pointer-events-auto tint-shadow-primary gradient-bg bg-primary text-xl mr-auto py-4 px-8 rounded-full flex items-center text-white"
+        (click)="toggleShow()">
+        店營業額
+        <img src="./assets/icons/chevron-down-white.svg" />
+    </button>
+    <section class="pointer-events-auto glass-blur rounded-2xl my-6" *ngIf="isShow" [ngStyle]="{'background-image': blurSource}">
+        <div class="bg-white/90 m-3 p-3 rounded-xl flex text-category-500 flex-col">
+            <h2 class="p-2 text-xl">高度表示資料</h2>
+            <form class="my-3 rounded-xl">
+                <fieldset>
+                    <div class="flex flex-col">
+                        <div class="unselected-category overflow-y-auto">
+                            <ng-container *ngFor="let category of categoriesMappedId; index as i">
+                                <label
+                                    class="rounded-full bg-category-200 py-3 px-6 flex space-x-2 items-center my-1 mx-3">
+                                    <label [for]="'category' + i" class="flex space-x-2 mr-auto">
+                                        <p class="pr-6">{{category.tableName}}</p>
+                                    </label>
+                                    <input type="radio" [id]="'category' + i" name="category" [value]="category.categoryId" [(ngModel)]="radioValue" (change)="changeCategory(category.categoryId)" [ngStyle]="{'background-image': updateSelectedStyle(category.categoryId)}"/>
+                                </label>
+                            </ng-container>
+                            {{radioValue}}
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+            <button
+                class="rounded-full bg-category-400 py-3 px-6 flex justify-center space-x-2  items-center my-1 mx-3"
+                (click)="toggleAddCategory()"
+                >
+                <p>新增</p>
+                <img src="./assets/icons/add-category.svg">
+            </button>
+        </div>
+    </section>
+</div>
+<app-add-category
+*ngIf="isAddCategoryShow"
+[useBlurPadding]="true"
+[setPopupBg]="'bg-white/10'"
+(setHide)="toggleAddCategory()"
+(onSubmit)="onGotSheetUrl($event)"
+></app-add-category>
+<app-add-name
+*ngIf="isAddNameShow"
+[useBlurPadding]="true"
+[setThemeColor]="'category'"
+[setPopupBg]="'bg-white/10'"
+(setHide)="nameMoveLastSetp()"
+(onSubmit)="onGotName($event)"
+></app-add-name>
+<app-completed
+*ngIf="isCompletedShow"
+[name]="addedName"
+[useBlurPadding]="true"
+[setThemeColor]="'category'"
+[setPopupBg]="'bg-white/10'"
+[setCta]="true"
+(setHide)="toggleCompletedShow()"
+(onSubmit)="switchNewCategory($event)"
+></app-completed>

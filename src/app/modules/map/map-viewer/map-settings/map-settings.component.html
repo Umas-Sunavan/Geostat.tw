@@ -1,0 +1,35 @@
+<div class="flex flex-col">
+  <button
+    *ngIf="!showSettings"
+    (click)="toggleShow()"
+    class="tint-shadow-primary gradient-bg m-6 ml-auto bg-primary text-xl py-4 px-8 rounded-full flex items-center text-white pointer-events-auto"
+  >
+    設定
+    <img src="./assets/icons/tool.svg" />
+  </button>
+  <button
+    *ngIf="showSettings"
+    (click)="toggleShow()"
+    class="tint-shadow-primary gradient-bg m-6 ml-auto bg-primary text-xl py-4 px-8 rounded-full flex items-center text-white pointer-events-auto"
+  >
+    <p>儲存設定</p>
+    <img src="./assets/icons/check.svg" />
+  </button>
+  <div class="flex" *ngIf="showSettings">
+    <app-map-pin-settings
+      (pinChecked)="onPinSelected($event)"
+      [blurSource]="blurSource"
+      [setPins]="pins"
+      [setSelectedPins]="selectedPins"
+      [setPolygons]="polygons"
+      class="flex float-right flex-col pr-4"
+    ></app-map-pin-settings>
+    <app-map-3d-settings
+      [polygonSettings]="polygonSettings"
+      [columnSettings]="columnSettings"
+      [blurSource]="blurSource"
+      (columnChanged)="onColumnChanged($event)"
+      (polygonChanged)="onPolygonChanged($event)"
+    ></app-map-3d-settings>
+  </div>
+</div>
